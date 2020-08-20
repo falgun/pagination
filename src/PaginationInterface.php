@@ -1,4 +1,5 @@
 <?php
+
 namespace Falgun\Pagination;
 
 interface PaginationInterface
@@ -14,7 +15,7 @@ interface PaginationInterface
 
     public function getLimit(): int;
 
-    public function detectCurrentPage();
+    public function detectCurrentPage(): int;
 
     public function setCurrentPage(int $page): PaginationInterface;
 

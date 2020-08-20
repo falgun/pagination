@@ -1,4 +1,6 @@
 <?php
+declare(strict_types=1);
+
 namespace Falgun\Pagination;
 
 class Pager extends Pagination
@@ -8,10 +10,12 @@ class Pager extends Pagination
     {
         $this->calculateTotalPages();
 
-        return new PaginationBag(new Page('', '', false, Page::NO_FLAG),
-            new Page('', '', false, Page::NO_FLAG),
-            $this->prePage(),
-            $this->nextPage(),
-            new \EmptyIterator());
+        return PaginationBag::new(
+                Page::new('', '', false, Page::NO_FLAG),
+                Page::new('', '', false, Page::NO_FLAG),
+                $this->prePage(),
+                $this->nextPage(),
+                new \EmptyIterator()
+        );
     }
 }

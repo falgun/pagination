@@ -1,15 +1,20 @@
 <?php
+declare(strict_types=1);
+
 namespace Falgun\Pagination;
 
-class Page
+final class Page
 {
 
-    const NO_FLAG = 0;
-    const IS_VALID = 1;
+    public const NO_FLAG = 0;
+    public const IS_VALID = 1;
 
-    public $link, $title, $current, $flags;
+    public string $link;
+    public string $title;
+    public bool $current;
+    public int $flags;
 
-    public function __construct($title, string $link, bool $current = false, int $flags = 0)
+    private final function __construct(string $title, string $link, bool $current = false, int $flags = 0)
     {
         $this->title = $title;
         $this->link = $link;
@@ -17,8 +22,13 @@ class Page
         $this->flags = $flags;
     }
 
-    public function isValid()
+    public static function new(string $title, string $link, bool $current = false, int $flags = 0): self
     {
-        return $this->flags & self::IS_VALID;
+        return new static($title, $link, $current, $flags);
+    }
+
+    public function isValid(): bool
+    {
+        return ($this->flags & self::IS_VALID) === 1;
     }
 }
