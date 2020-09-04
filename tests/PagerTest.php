@@ -13,12 +13,12 @@ class PagerTest extends TestCase
     {
         $_SERVER['REQUEST_URI'] = 'http://localhost/skeleton/public';
 
-        $_GET['page'] = 9;
+        $page = $_GET['page'] = 9;
 
         $pager = new Pager();
         $pager->setTotalContent(287);
 
-        $pages = $pager->make();
+        $pages = $pager->make($page);
 
 
         $this->assertEquals(false, $pages->firstPage->isValid(), 'First page valid failed');

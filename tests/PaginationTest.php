@@ -16,8 +16,7 @@ class PaginationTest extends TestCase
 
         $pagination = new Pagination(15, 9);
 
-        $this->assertEquals(3, $pagination->getCurrentPage(), 'Current Page detection failed');
-        $this->assertEquals(30, $pagination->getItemOffset(), 'Offset detection failed');
+        $this->assertEquals(0, $pagination->getItemOffset(), 'Offset detection failed');
         $this->assertEquals(15, $pagination->getItemsPerPage(), 'Items Per Page detection failed');
 //        $this->assertEquals(0, $pagination->getTotalContent(), 'Total Content detection failed');
 //        $this->assertEquals(0, $pagination->getTotalPage(), 'Total Page detection failed');
@@ -215,7 +214,7 @@ class PaginationTest extends TestCase
 
         $pagination->setTotalContent($totalItems);
 
-        $pages = $pagination->make();
+        $pages = $pagination->make($currentPage);
 
         $this->assertEquals($expected_links_valid, $pages->links->valid(), 'Link iterator validation failed');
 

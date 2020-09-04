@@ -5,7 +5,7 @@ namespace Falgun\Pagination;
 interface PaginationInterface
 {
 
-    public function make(): PaginationBag;
+    public function make(int $currentPage): PaginationBag;
 
     public function setItemOffset(int $offset): PaginationInterface;
 
@@ -14,8 +14,6 @@ interface PaginationInterface
     public function setItemsPerPage(int $itemsPerPage): PaginationInterface;
 
     public function getItemsPerPage(): int;
-
-    public function getCurrentPage(): int;
 
     public function setTotalContent(int $total): PaginationInterface;
 }

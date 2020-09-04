@@ -6,8 +6,11 @@ namespace Falgun\Pagination;
 class Pager extends Pagination
 {
 
-    public function make(): PaginationBag
+    public function make(int $currentPage): PaginationBag
     {
+        $this->prepareCurrentPage($currentPage);
+        $this->calculateItemOffset();
+
         $this->calculateTotalPages();
 
         return PaginationBag::new(

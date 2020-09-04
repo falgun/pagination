@@ -15,14 +15,35 @@ class Pagination implements PaginationInterface
 
     public function __construct(int $itemsPerPage = 10, int $maxLinkToShow = 5)
     {
-        $this->detectCurrentPage();
-
         $this->itemsPerPage = $itemsPerPage;
         $this->maxLinkToShow = $maxLinkToShow;
         $this->totalContent = 0;
         $this->totalPage = 0;
+        $this->itemOffset = 0;
+        $this->currentPage = 1;
+    }
 
+    public function make(int $currentPage): PaginationBag
+    {
+        $this->prepareCurrentPage($currentPage);
         $this->calculateItemOffset();
+
+        $this->calculateTotalPages();
+
+        $range = $this->calculatePageRange();
+
+        return PaginationBag::new(
+                $this->firstPage(),
+                $this->lastPage(),
+                $this->prePage(),
+                $this->nextPage(),
+                $this->links($range)
+        );
+    }
+
+    protected function prepareCurrentPage(int $page): void
+    {
+        $this->currentPage = $page < 1 ? 1 : $page;
     }
 
     protected function calculateItemOffset(): int
@@ -61,7 +82,7 @@ class Pagination implements PaginationInterface
 
     protected function calculateStartPage(): int
     {
-        $startPage = (int) ($this->currentPageNo() - intval(floor($this->maxLinkToShow / 2)));
+        $startPage = (int) ($this->currentPage - intval(floor($this->maxLinkToShow / 2)));
 
         return ($startPage < 1) ? 1 : $startPage;
     }
@@ -91,20 +112,6 @@ class Pagination implements PaginationInterface
                     Page::IS_VALID
             );
         }
-    }
-
-    public function make(): PaginationBag
-    {
-        $this->calculateTotalPages();
-        $range = $this->calculatePageRange();
-
-        return PaginationBag::new(
-                $this->firstPage(),
-                $this->lastPage(),
-                $this->prePage(),
-                $this->nextPage(),
-                $this->links($range)
-        );
     }
 
     protected function firstPage(): Page
@@ -173,24 +180,6 @@ class Pagination implements PaginationInterface
         return $_GET;
     }
 
-    protected function currentPageNo(): int
-    {
-        if (isset($this->currentPage)) {
-            return $this->currentPage;
-        }
-
-        $pageNo = (int) ($_GET['page'] ?? 1);
-
-        return $this->currentPage = $pageNo < 1 ? 1 : $pageNo;
-    }
-
-    protected function detectCurrentPage(): int
-    {
-        $pageNo = (int) ($_GET['page'] ?? 1);
-
-        return $this->currentPage = $pageNo < 1 ? 1 : $pageNo;
-    }
-
     protected function getTotalPage(): int
     {
         return $this->totalPage;
@@ -199,11 +188,6 @@ class Pagination implements PaginationInterface
     protected function setTotalPage(int $totalPage): void
     {
         $this->totalPage = $totalPage;
-    }
-
-    public function getCurrentPage(): int
-    {
-        return $this->currentPage;
     }
 
     public function getItemsPerPage(): int
