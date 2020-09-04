@@ -33,10 +33,10 @@ class Pagination implements PaginationInterface
         $range = $this->calculatePageRange();
 
         return PaginationBag::new(
-                $this->firstPage(),
-                $this->lastPage(),
-                $this->prePage(),
-                $this->nextPage(),
+                PageBuilder::firstPage($this->currentPage),
+                PageBuilder::lastPage($this->currentPage, $this->totalPage),
+                PageBuilder::prePage($this->currentPage),
+                PageBuilder::nextPage($this->currentPage, $this->totalPage),
                 $this->links($range)
         );
     }
@@ -112,50 +112,6 @@ class Pagination implements PaginationInterface
                     Page::IS_VALID
             );
         }
-    }
-
-    protected function firstPage(): Page
-    {
-        return Page::new(
-                'First',
-                1,
-                $this->currentPage === 1,
-                $this->currentPage > 1 ? Page::IS_VALID : Page::NO_FLAG
-        );
-    }
-
-    protected function lastPage(): Page
-    {
-        return Page::new(
-                'Last',
-                $this->getTotalPage(),
-                $this->currentPage === $this->getTotalPage(),
-                $this->currentPage < $this->getTotalPage() ? Page::IS_VALID : Page::NO_FLAG
-        );
-    }
-
-    protected function prePage(): Page
-    {
-        $prePage = ($this->currentPage > 1) ? ($this->currentPage - 1) : $this->currentPage;
-
-        return Page::new(
-                'Pre',
-                $prePage,
-                false,
-                $this->currentPage > 1 ? Page::IS_VALID : Page::NO_FLAG
-        );
-    }
-
-    protected function nextPage(): Page
-    {
-        $nextPage = ($this->currentPage < $this->totalPage) ? ($this->currentPage + 1) : $this->currentPage;
-
-        return Page::new(
-                'Next',
-                $nextPage,
-                false,
-                $this->currentPage < $this->totalPage ? Page::IS_VALID : Page::NO_FLAG
-        );
     }
 
     protected function getTotalPage(): int

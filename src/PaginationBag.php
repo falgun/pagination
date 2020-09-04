@@ -5,7 +5,7 @@ namespace Falgun\Pagination;
 
 use Iterator;
 
-class PaginationBag
+final class PaginationBag
 {
 
     public Page $firstPage;

@@ -16,8 +16,8 @@ class Pager extends Pagination
         return PaginationBag::new(
                 Page::new('', 1, false, Page::NO_FLAG),
                 Page::new('', 1, false, Page::NO_FLAG),
-                $this->prePage(),
-                $this->nextPage(),
+                PageBuilder::prePage($this->currentPage),
+                PageBuilder::nextPage($this->currentPage, $this->totalPage),
                 new \EmptyIterator()
         );
     }
