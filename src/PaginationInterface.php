@@ -15,5 +15,5 @@ interface PaginationInterface
 
     public function getItemsPerPage(): int;
 
-    public function setTotalContent(int $total): PaginationInterface;
+    public function setTotalItems(int $total): PaginationInterface;
 }

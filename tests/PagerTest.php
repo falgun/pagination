@@ -16,7 +16,7 @@ class PagerTest extends TestCase
         $page = $_GET['page'] = 9;
 
         $pager = new Pager();
-        $pager->setTotalContent(287);
+        $pager->setTotalItems(287);
 
         $pages = $pager->make($page);
 
@@ -26,7 +26,9 @@ class PagerTest extends TestCase
         $this->assertEquals(false, $pages->links->valid(), 'Link Iterator valid failed');
 
         $this->assertEquals(true, $pages->prePage->isValid(), 'Pre page valid failed');
-        $this->assertEquals(8, $pages->prePage->title, 'Pre page title failed');
-        $this->assertEquals(10, $pages->nextPage->title, 'Next page title failed');
+        $this->assertEquals('Pre', $pages->prePage->title, 'Pre page title failed');
+        $this->assertEquals(8, $pages->prePage->page, 'Pre page Number failed');
+        $this->assertEquals('Next', $pages->nextPage->title, 'Next page title failed');
+        $this->assertEquals(10, $pages->nextPage->page, 'Next page Number failed');
     }
 }

@@ -14,8 +14,8 @@ class Pager extends Pagination
         $this->calculateTotalPages();
 
         return PaginationBag::new(
-                Page::new('', '', false, Page::NO_FLAG),
-                Page::new('', '', false, Page::NO_FLAG),
+                Page::new('', 1, false, Page::NO_FLAG),
+                Page::new('', 1, false, Page::NO_FLAG),
                 $this->prePage(),
                 $this->nextPage(),
                 new \EmptyIterator()
