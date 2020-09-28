@@ -25,6 +25,9 @@ class PaginationTest extends TestCase
 
         $this->assertEquals(99, $pagination->getItemOffset(), 'Offset detection failed');
         $this->assertEquals(5, $pagination->getItemsPerPage(), 'Items Per Page detection failed');
+
+        $pagination->setCurrentPage(7);
+        $this->assertEquals(30, $pagination->getItemOffset(), 'Offset detection after setCurrentPage failed');
     }
 
     public static function paginationDataProvider(): array

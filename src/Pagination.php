@@ -154,4 +154,12 @@ class Pagination implements PaginationInterface
 
         return $this;
     }
+
+    public function setCurrentPage(int $page): PaginationInterface
+    {
+        $this->prepareCurrentPage($page);
+        $this->calculateItemOffset();
+
+        return $this;
+    }
 }
