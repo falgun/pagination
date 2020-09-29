@@ -138,6 +138,8 @@ class Pagination implements PaginationInterface
     {
         $this->itemsPerPage = $itemsPerPage;
 
+        $this->calculateItemOffset();
+
         return $this;
     }
 
