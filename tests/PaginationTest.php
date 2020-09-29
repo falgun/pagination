@@ -11,23 +11,85 @@ class PaginationTest extends TestCase
 
     public function testPaginationGetSet()
     {
-        $_SERVER['REQUEST_URI'] = 'http://localhost/skeleton/public';
-        $_GET['page'] = 3;
-
         $pagination = new Pagination(15, 9);
 
-        $this->assertEquals(0, $pagination->getItemOffset(), 'Offset detection failed');
         $this->assertEquals(15, $pagination->getItemsPerPage(), 'Items Per Page detection failed');
+    }
 
-        $pagination->setItemOffset(99);
-        $pagination->setItemsPerPage(5);
-        $pagination->setTotalItems(1000);
+    public function testUninitilizedProperties()
+    {
+        $pagination = new Pagination();
 
-        $this->assertEquals(99, $pagination->getItemOffset(), 'Offset detection failed');
-        $this->assertEquals(5, $pagination->getItemsPerPage(), 'Items Per Page detection failed');
+        $this->expectException(\Error::class);
+
+        $pagination->getItemOffset();
+        $pagination->getTotalItems();
+        $pagination->getTotalPage();
+        $pagination->getCurrentPage();
+    }
+
+    public function testSetCurrentPage()
+    {
+        $pagination = new Pagination(15, 9);
 
         $pagination->setCurrentPage(7);
-        $this->assertEquals(30, $pagination->getItemOffset(), 'Offset detection after setCurrentPage failed');
+        $this->assertEquals(90, $pagination->getItemOffset(), 'Offset detection after setCurrentPage failed');
+        $this->assertEquals(7, $pagination->getCurrentPage(), 'current page after setCurrentPage failed');
+    }
+
+    public function testSetItemPerPage()
+    {
+        $pagination = new Pagination(10, 5);
+        $pagination->setCurrentPage(7);
+
+        $pagination->setItemsPerPage(9);
+
+        $this->assertEquals(54, $pagination->getItemOffset(), 'Offset detection failed');
+        $this->assertEquals(9, $pagination->getItemsPerPage(), 'Items Per Page detection failed');
+    }
+
+    public function testTotalPageAfterSetItemPerPage()
+    {
+        $pagination = new Pagination(10, 5);
+        $pagination->setCurrentPage(7);
+        $pagination->setTotalItems(100);
+
+        $this->assertEquals(10, $pagination->getTotalPage(), 'Total page count failed');
+
+        $pagination->setItemsPerPage(7);
+
+        $this->assertEquals(15, $pagination->getTotalPage(), 'Total page count after setItemsPerPage failed');
+    }
+
+    public function testSetGetTotalItems()
+    {
+        $pagination = new Pagination(15, 9);
+
+        $pagination->setTotalItems(1000);
+
+        $this->assertEquals(1000, $pagination->getTotalItems(), 'Total Item get/set failed');
+    }
+
+    public function testGetTotalPages()
+    {
+        $pagination = new Pagination(15, 9);
+
+        $pagination->setTotalItems(1000);
+
+        $this->assertEquals(67, $pagination->getTotalPage(), 'Total Page get failed');
+    }
+
+    public function testHasMultiplePage()
+    {
+        $pagination = new Pagination(15, 9);
+
+        $pagination->setTotalItems(1000);
+
+        $this->assertEquals(true, $pagination->hasMultiplePage(), 'Multiple page check failed');
+
+        $pagination->setTotalItems(10);
+
+        $this->assertEquals(false, $pagination->hasMultiplePage(), 'Multiple page check failed');
     }
 
     public static function paginationDataProvider(): array

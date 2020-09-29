@@ -17,10 +17,6 @@ class Pagination implements PaginationInterface
     {
         $this->itemsPerPage = $itemsPerPage;
         $this->maxLinkToShow = $maxLinkToShow;
-        $this->totalItems = 0;
-        $this->itemOffset = 0;
-        $this->totalPage = 1;
-        $this->currentPage = 1;
     }
 
     public function make(int $currentPage): PaginationBag
@@ -114,11 +110,6 @@ class Pagination implements PaginationInterface
         }
     }
 
-    protected function getTotalPage(): int
-    {
-        return $this->totalPage;
-    }
-
     protected function setTotalPage(int $totalPage): void
     {
         $this->totalPage = $totalPage;
@@ -134,18 +125,35 @@ class Pagination implements PaginationInterface
         return $this->itemOffset;
     }
 
+    public function getTotalItems(): int
+    {
+        return $this->totalItems;
+    }
+
+    public function getTotalPage(): int
+    {
+        return $this->totalPage;
+    }
+
+    public function hasMultiplePage(): bool
+    {
+        return $this->totalPage > 1;
+    }
+
+    public function getCurrentPage(): int
+    {
+        return $this->currentPage;
+    }
+
     public function setItemsPerPage(int $itemsPerPage): PaginationInterface
     {
         $this->itemsPerPage = $itemsPerPage;
 
         $this->calculateItemOffset();
 
-        return $this;
-    }
-
-    public function setItemOffset(int $itemOffset): PaginationInterface
-    {
-        $this->itemOffset = $itemOffset;
+        if (isset($this->totalItems)) {
+            $this->calculateTotalPages();
+        }
 
         return $this;
     }
@@ -153,6 +161,8 @@ class Pagination implements PaginationInterface
     public function setTotalItems(int $total): PaginationInterface
     {
         $this->totalItems = $total;
+
+        $this->calculateTotalPages();
 
         return $this;
     }
