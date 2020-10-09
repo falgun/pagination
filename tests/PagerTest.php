@@ -29,4 +29,17 @@ class PagerTest extends TestCase
         $this->assertEquals('Next', $pages->nextPage->title, 'Next page title failed');
         $this->assertEquals(10, $pages->nextPage->page, 'Next page Number failed');
     }
+    
+    public function testPageGetter()
+    {
+        $page = 9;
+
+        $pager = new Pager($page);
+        $pager->setTotalItems(287);
+        
+        $this->assertSame(80, $pager->getItemOffset());
+        $this->assertSame(10, $pager->getItemsPerPage());
+        $this->assertSame(287, $pager->getTotalItems());
+        $this->assertSame(true, $pager->hasMultiplePage());
+    }
 }
