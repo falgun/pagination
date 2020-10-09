@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace Falgun\Pagination;
 
-class Pagination implements PaginationInterface
+final class Pagination implements PaginationInterface
 {
 
     protected int $itemOffset;
