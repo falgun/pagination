@@ -9,61 +9,28 @@ use Falgun\Pagination\Pagination;
 class PaginationTest extends TestCase
 {
 
-    public function testPaginationGetSet()
+    public function testPaginationConstructor()
     {
-        $pagination = new Pagination(15, 9);
+        $pagination = new Pagination(7, 15, 9);
 
         $this->assertEquals(15, $pagination->getItemsPerPage(), 'Items Per Page detection failed');
-    }
-
-    public function testUninitilizedProperties()
-    {
-        $pagination = new Pagination();
-
-        $this->expectException(\Error::class);
-
-        $pagination->getItemOffset();
-        $pagination->getTotalItems();
-        $pagination->getTotalPage();
-        $pagination->getCurrentPage();
-    }
-
-    public function testSetCurrentPage()
-    {
-        $pagination = new Pagination(15, 9);
-
-        $pagination->setCurrentPage(7);
         $this->assertEquals(90, $pagination->getItemOffset(), 'Offset detection after setCurrentPage failed');
         $this->assertEquals(7, $pagination->getCurrentPage(), 'current page after setCurrentPage failed');
     }
 
-    public function testSetItemPerPage()
+    public function testUninitilizedProperties()
     {
-        $pagination = new Pagination(10, 5);
-        $pagination->setCurrentPage(7);
+        $pagination = new Pagination(1);
 
-        $pagination->setItemsPerPage(9);
+        $this->expectException(\Error::class);
 
-        $this->assertEquals(54, $pagination->getItemOffset(), 'Offset detection failed');
-        $this->assertEquals(9, $pagination->getItemsPerPage(), 'Items Per Page detection failed');
-    }
-
-    public function testTotalPageAfterSetItemPerPage()
-    {
-        $pagination = new Pagination(10, 5);
-        $pagination->setCurrentPage(7);
-        $pagination->setTotalItems(100);
-
-        $this->assertEquals(10, $pagination->getTotalPage(), 'Total page count failed');
-
-        $pagination->setItemsPerPage(7);
-
-        $this->assertEquals(15, $pagination->getTotalPage(), 'Total page count after setItemsPerPage failed');
+        $pagination->getTotalItems();
+        $pagination->getTotalPage();
     }
 
     public function testSetGetTotalItems()
     {
-        $pagination = new Pagination(15, 9);
+        $pagination = new Pagination(1, 15, 9);
 
         $pagination->setTotalItems(1000);
 
@@ -72,7 +39,7 @@ class PaginationTest extends TestCase
 
     public function testGetTotalPages()
     {
-        $pagination = new Pagination(15, 9);
+        $pagination = new Pagination(1, 15, 9);
 
         $pagination->setTotalItems(1000);
 
@@ -81,7 +48,7 @@ class PaginationTest extends TestCase
 
     public function testHasMultiplePage()
     {
-        $pagination = new Pagination(15, 9);
+        $pagination = new Pagination(1, 15, 9);
 
         $pagination->setTotalItems(1000);
 
@@ -284,11 +251,11 @@ class PaginationTest extends TestCase
         bool $expected_next_page_current
     )
     {
-        $pagination = new Pagination();
+        $pagination = new Pagination($currentPage);
 
         $pagination->setTotalItems($totalItems);
 
-        $pages = $pagination->make($currentPage);
+        $pages = $pagination->make();
 
         $this->assertEquals($expected_links_valid, $pages->links->valid(), 'Link iterator validation failed');
 

@@ -13,19 +13,17 @@ class Pagination implements PaginationInterface
     protected int $currentPage;
     protected int $maxLinkToShow;
 
-    public function __construct(int $itemsPerPage = 10, int $maxLinkToShow = 5)
+    public function __construct(int $currentPage, int $itemsPerPage = 10, int $maxLinkToShow = 5)
     {
+        $this->currentPage = $this->prepareCurrentPage($currentPage);
         $this->itemsPerPage = $itemsPerPage;
         $this->maxLinkToShow = $maxLinkToShow;
+
+        $this->calculateItemOffset();
     }
 
-    public function make(int $currentPage): PaginationBag
+    public function make(): PaginationBag
     {
-        $this->prepareCurrentPage($currentPage);
-        $this->calculateItemOffset();
-
-        $this->calculateTotalPages();
-
         $range = $this->calculatePageRange();
 
         return PaginationBag::new(
@@ -37,9 +35,9 @@ class Pagination implements PaginationInterface
         );
     }
 
-    protected function prepareCurrentPage(int $page): void
+    private function prepareCurrentPage(int $page): int
     {
-        $this->currentPage = $page < 1 ? 1 : $page;
+        return $page < 1 ? 1 : $page;
     }
 
     protected function calculateItemOffset(): int
@@ -145,32 +143,11 @@ class Pagination implements PaginationInterface
         return $this->currentPage;
     }
 
-    public function setItemsPerPage(int $itemsPerPage): PaginationInterface
-    {
-        $this->itemsPerPage = $itemsPerPage;
-
-        $this->calculateItemOffset();
-
-        if (isset($this->totalItems)) {
-            $this->calculateTotalPages();
-        }
-
-        return $this;
-    }
-
     public function setTotalItems(int $total): PaginationInterface
     {
         $this->totalItems = $total;
 
         $this->calculateTotalPages();
-
-        return $this;
-    }
-
-    public function setCurrentPage(int $page): PaginationInterface
-    {
-        $this->prepareCurrentPage($page);
-        $this->calculateItemOffset();
 
         return $this;
     }

@@ -16,13 +16,16 @@ $ composer require falgunphp/pagination
 <?php
 use Falgun\Pagination\Pagination;
 
-$pagination = new Pagination();
+$currentPage = 1;
+$itemsPerPage = 10;
+$maxLinkToShow = 5;
+    
+$pagination = new Pagination($currentPage, $itemsPerPage, $maxLinkToShow);
 
 // set total item count we got from db/api
 $pagination->setTotalItems(1000);
 
-// make pagination by passing current page number
-$paginationBag = $pagination->make($_GET['page']);
+$paginationBag = $pagination->make();
 // $paginationBag is a instance of Falgun\Pagination\PaginationBag
 // It has four properties
 //    public Page $firstPage;
