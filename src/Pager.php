@@ -54,8 +54,8 @@ final class Pager implements PaginationInterface
         return $this->pagination->hasMultiplePage();
     }
 
-    public function setTotalItems(int $total): PaginationInterface
+    public function setTotalItems(int $total): void
     {
-        return $this->pagination->setTotalItems($total);
+        $this->pagination->setTotalItems($total);
     }
 }

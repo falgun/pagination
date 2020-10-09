@@ -14,8 +14,8 @@ class PaginationTest extends TestCase
         $pagination = new Pagination(7, 15, 9);
 
         $this->assertEquals(15, $pagination->getItemsPerPage(), 'Items Per Page detection failed');
-        $this->assertEquals(90, $pagination->getItemOffset(), 'Offset detection after setCurrentPage failed');
-        $this->assertEquals(7, $pagination->getCurrentPage(), 'current page after setCurrentPage failed');
+        $this->assertEquals(90, $pagination->getItemOffset(), 'Offset detection failed');
+        $this->assertEquals(7, $pagination->getCurrentPage(), 'current page calcuation failed');
     }
 
     public function testUninitilizedProperties()
@@ -26,6 +26,24 @@ class PaginationTest extends TestCase
 
         $pagination->getTotalItems();
         $pagination->getTotalPage();
+    }
+
+    public function testInvalidCurrentPage()
+    {
+        $pagination = new Pagination(-10);
+
+        $this->assertEquals(1, $pagination->getCurrentPage(), 'current page calcuation for negative number failed');
+    }
+
+    public function testInvalidItemsPerPage()
+    {
+        $this->expectException(\InvalidArgumentException::class);
+        new Pagination(1, 0);
+    }
+    public function testInvalidLinksToShow()
+    {
+        $this->expectException(\InvalidArgumentException::class);
+        new Pagination(1, 1, -1);
     }
 
     public function testSetGetTotalItems()

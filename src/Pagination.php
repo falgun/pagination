@@ -3,19 +3,37 @@ declare(strict_types=1);
 
 namespace Falgun\Pagination;
 
+use InvalidArgumentException;
+
 final class Pagination implements PaginationInterface
 {
 
-    protected int $itemOffset;
-    protected int $itemsPerPage;
-    protected int $totalItems;
-    protected int $totalPage;
-    protected int $currentPage;
-    protected int $maxLinkToShow;
+    private int $itemOffset;
+    private int $itemsPerPage;
+    private int $totalItems;
+    private int $totalPage;
+    private int $currentPage;
+    private int $maxLinkToShow;
 
+    /**
+     * 
+     * @param int $currentPage
+     * @param int $itemsPerPage
+     * @param int $maxLinkToShow
+     * @throws InvalidArgumentException
+     */
     public function __construct(int $currentPage, int $itemsPerPage = 10, int $maxLinkToShow = 5)
     {
         $this->currentPage = $this->prepareCurrentPage($currentPage);
+
+        if ($itemsPerPage < 1) {
+            throw new InvalidArgumentException('ItemsPerPage value must be greater than 0');
+        }
+
+        if ($maxLinkToShow < 0) {
+            throw new InvalidArgumentException('MaxLinkToShow value must be positive number');
+        }
+
         $this->itemsPerPage = $itemsPerPage;
         $this->maxLinkToShow = $maxLinkToShow;
 
@@ -40,17 +58,17 @@ final class Pagination implements PaginationInterface
         return $page < 1 ? 1 : $page;
     }
 
-    protected function calculateItemOffset(): int
+    private function calculateItemOffset(): int
     {
         return $this->itemOffset = ($this->currentPage - 1) * $this->itemsPerPage;
     }
 
-    protected function calculateTotalPages(): void
+    private function calculateTotalPages(): void
     {
         $this->setTotalPage((int) ceil($this->totalItems / $this->itemsPerPage));
     }
 
-    protected function calculatePageRange(): Range
+    private function calculatePageRange(): Range
     {
         $startPage = $this->calculateStartPage();
         $endPage = $this->calculateEndPage($startPage);
@@ -74,29 +92,29 @@ final class Pagination implements PaginationInterface
         return $pageRange;
     }
 
-    protected function calculateStartPage(): int
+    private function calculateStartPage(): int
     {
         $startPage = (int) ($this->currentPage - intval(floor($this->maxLinkToShow / 2)));
 
         return ($startPage < 1) ? 1 : $startPage;
     }
 
-    protected function calculateEndPage(int $startPage): int
+    private function calculateEndPage(int $startPage): int
     {
         return $startPage + ($this->maxLinkToShow - 1);
     }
 
-    protected function isAlmostPaginationEnd(int $startPage, int $endPage): bool
+    private function isAlmostPaginationEnd(int $startPage, int $endPage): bool
     {
         return ($this->totalPage > $this->maxLinkToShow) && ($endPage >= $this->totalPage);
     }
 
-    protected function isBeforePaginationEnd(int $startPage, int $endPage): bool
+    private function isBeforePaginationEnd(int $startPage, int $endPage): bool
     {
         return ($this->totalPage > $this->maxLinkToShow) && ($endPage < $this->totalPage);
     }
 
-    protected function links(Range $range): \Iterator
+    private function links(Range $range): \Iterator
     {
         for ($page = $range->start; $page <= $range->end; $page++) {
             yield Page::new(
@@ -108,7 +126,7 @@ final class Pagination implements PaginationInterface
         }
     }
 
-    protected function setTotalPage(int $totalPage): void
+    private function setTotalPage(int $totalPage): void
     {
         $this->totalPage = $totalPage;
     }
@@ -143,12 +161,10 @@ final class Pagination implements PaginationInterface
         return $this->currentPage;
     }
 
-    public function setTotalItems(int $total): PaginationInterface
+    public function setTotalItems(int $total): void
     {
         $this->totalItems = $total;
 
         $this->calculateTotalPages();
-
-        return $this;
     }
 }
