@@ -25,8 +25,7 @@ final class PageBuilder
                 ($currentPage < $totalPages) ? Page::IS_VALID : Page::NO_FLAG
         );
     }
-    
-    
+
     public static function prePage(int $currentPage): Page
     {
         $prePage = ($currentPage > 1) ? ($currentPage - 1) : $currentPage;
@@ -34,6 +33,7 @@ final class PageBuilder
         return Page::new(
                 'Pre',
                 $prePage,
+                // previous page is never considered as current page
                 false,
                 ($currentPage > 1) ? Page::IS_VALID : Page::NO_FLAG
         );
@@ -46,9 +46,9 @@ final class PageBuilder
         return Page::new(
                 'Next',
                 $nextPage,
+                // next page is never considered as current page
                 false,
                 ($currentPage < $totalPages) ? Page::IS_VALID : Page::NO_FLAG
         );
     }
-
 }
