@@ -8,24 +8,48 @@ use Iterator;
 final class PaginationBag
 {
 
-    public Page $firstPage;
-    public Page $lastPage;
-    public Page $prePage;
-    public Page $nextPage;
+    private Page $first;
+    private Page $last;
+    private Page $pre;
+    private Page $next;
+    private Iterator $pages;
 
-    public Iterator $links;
-
-    private final function __construct(Page $firstPage, Page $lastPage, Page $prePage, Page $nextPage, Iterator $links)
+    private function __construct(Page $first, Page $last, Page $pre, Page $next, Iterator $pages)
     {
-        $this->firstPage = $firstPage;
-        $this->lastPage = $lastPage;
-        $this->prePage = $prePage;
-        $this->nextPage = $nextPage;
-        $this->links = $links;
+        $this->first = $first;
+        $this->last = $last;
+        $this->pre = $pre;
+        $this->next = $next;
+        $this->pages = $pages;
     }
 
-    public static function new(Page $firstPage, Page $lastPage, Page $prePage, Page $nextPage, Iterator $links): self
+    public static function new(Page $first, Page $last, Page $pre, Page $next, Iterator $pages): self
     {
-        return new static($firstPage, $lastPage, $prePage, $nextPage, $links);
+        return new static($first, $last, $pre, $next, $pages);
+    }
+
+    public function first(): Page
+    {
+        return $this->first;
+    }
+
+    public function last(): Page
+    {
+        return $this->last;
+    }
+
+    public function previous(): Page
+    {
+        return $this->pre;
+    }
+
+    public function next(): Page
+    {
+        return $this->next;
+    }
+
+    public function pages(): Iterator
+    {
+        return $this->pages;
     }
 }
