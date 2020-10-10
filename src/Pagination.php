@@ -5,6 +5,7 @@ namespace Falgun\Pagination;
 
 use InvalidArgumentException;
 
+/** @psalm-suppress PropertyNotSetInConstructor */
 final class Pagination implements PaginationInterface
 {
 
@@ -73,23 +74,21 @@ final class Pagination implements PaginationInterface
         $startPage = $this->calculateStartPage();
         $endPage = $this->calculateEndPage($startPage);
 
-        $pageRange = new Range();
-
         if ($this->isAlmostPaginationEnd($startPage, $endPage)) {
             // pagination range is almost over
-            $pageRange->end = $this->totalPage;
-            $pageRange->start = $pageRange->end - ($this->maxLinkToShow - 1);
+            $end = $this->totalPage;
+            $start = $end - ($this->maxLinkToShow - 1);
         } elseif ($this->isBeforePaginationEnd($startPage, $endPage)) {
             // enough range exits
-            $pageRange->start = $startPage;
-            $pageRange->end = $endPage;
+            $start = $startPage;
+            $end = $endPage;
         } else {
             // not enough pages to cover range
-            $pageRange->start = 1;
-            $pageRange->end = $this->totalPage;
+            $start = 1;
+            $end = $this->totalPage;
         }
 
-        return $pageRange;
+        return new Range($start, $end);
     }
 
     private function calculateStartPage(): int

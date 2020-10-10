@@ -34,7 +34,7 @@ final class PageBuilder
                 'Pre',
                 $prePage,
                 // previous page is never considered as current page
-                page::NOT_CURRENT_PAGE,
+                Page::NOT_CURRENT_PAGE,
                 ($currentPage > 1) ? Page::VISITABLE_PAGE : Page::NOT_VISITABLE_PAGE,
         );
     }
@@ -47,7 +47,7 @@ final class PageBuilder
                 'Next',
                 $nextPage,
                 // next page is never considered as current page
-                page::NOT_CURRENT_PAGE,
+                Page::NOT_CURRENT_PAGE,
                 ($currentPage < $totalPages) ? Page::VISITABLE_PAGE : Page::NOT_VISITABLE_PAGE,
         );
     }
