@@ -11,10 +11,10 @@ final class Page
     public const VISITABLE_PAGE = true;
     public const NOT_VISITABLE_PAGE = false;
 
-    public string $title;
-    public int $page;
-    public bool $current;
-    public bool $isVisitable;
+    private string $title;
+    private int $page;
+    private bool $current;
+    private bool $isVisitable;
 
     private final function __construct(string $title, int $page, bool $current, bool $isVisitable)
     {
@@ -27,6 +27,21 @@ final class Page
     public static function new(string $title, int $page, bool $current, bool $isVisitable): self
     {
         return new static($title, $page, $current, $isVisitable);
+    }
+
+    public function title(): string
+    {
+        return $this->title;
+    }
+
+    public function page(): int
+    {
+        return $this->page;
+    }
+
+    public function isCurrent(): bool
+    {
+        return $this->current;
     }
 
     public function isVisitable(): bool

@@ -284,9 +284,9 @@ class PaginationTest extends TestCase
 
             foreach ($pages->pages() as $page) {
                 $this->assertEquals(true, $page->isVisitable(), 'Link iterator page must be valid');
-                $this->assertEquals($i, $page->title, 'Link iterator page title failed');
-                $this->assertEquals($i, $page->page, 'Link iterator page number failed');
-                $this->assertEquals($i === $currentPage, $page->current, 'Link iterator page current failed');
+                $this->assertEquals($i, $page->title(), 'Link iterator page title failed');
+                $this->assertEquals($i, $page->page(), 'Link iterator page number failed');
+                $this->assertEquals($i === $currentPage, $page->isCurrent(), 'Link iterator page current failed');
 
                 $linkEndedAt = $i;
                 $i++;
@@ -295,23 +295,23 @@ class PaginationTest extends TestCase
         }
 
         $this->assertEquals($expected_first_page_valid, $pages->first()->isVisitable(), 'First page valid failed');
-        $this->assertEquals($expected_first_page_title, $pages->first()->title, 'First page title failed');
-        $this->assertEquals($expected_first_page_number, $pages->first()->page, 'First page number failed');
-        $this->assertEquals($expected_first_page_current, $pages->first()->current, 'First page current failed');
+        $this->assertEquals($expected_first_page_title, $pages->first()->title(), 'First page title failed');
+        $this->assertEquals($expected_first_page_number, $pages->first()->page(), 'First page number failed');
+        $this->assertEquals($expected_first_page_current, $pages->first()->isCurrent(), 'First page current failed');
 
         $this->assertEquals($expected_last_page_valid, $pages->last()->isVisitable(), 'Last page valid failed');
-        $this->assertEquals($expected_last_page_title, $pages->last()->title, 'Last page title failed');
-        $this->assertEquals($expected_last_page_number, $pages->last()->page, 'Last page number failed');
-        $this->assertEquals($expected_last_page_current, $pages->last()->current, 'Last page current failed');
+        $this->assertEquals($expected_last_page_title, $pages->last()->title(), 'Last page title failed');
+        $this->assertEquals($expected_last_page_number, $pages->last()->page(), 'Last page number failed');
+        $this->assertEquals($expected_last_page_current, $pages->last()->isCurrent(), 'Last page current failed');
 
         $this->assertEquals($expected_pre_page_valid, $pages->previous()->isVisitable(), 'Pre page valid failed');
-        $this->assertEquals($expected_pre_page_title, $pages->previous()->title, 'Pre page title failed');
-        $this->assertEquals($expected_pre_page_number, $pages->previous()->page, 'Pre page number failed');
-        $this->assertEquals($expected_pre_page_current, $pages->previous()->current, 'Pre page current failed');
+        $this->assertEquals($expected_pre_page_title, $pages->previous()->title(), 'Pre page title failed');
+        $this->assertEquals($expected_pre_page_number, $pages->previous()->page(), 'Pre page number failed');
+        $this->assertEquals($expected_pre_page_current, $pages->previous()->isCurrent(), 'Pre page current failed');
 
         $this->assertEquals($expected_next_page_valid, $pages->next()->isVisitable(), 'Next page valid failed');
-        $this->assertEquals($expected_next_page_title, $pages->next()->title, 'Next page title failed');
-        $this->assertEquals($expected_next_page_number, $pages->next()->page, 'Next page number failed');
-        $this->assertEquals($expected_next_page_current, $pages->next()->current, 'Next page current failed');
+        $this->assertEquals($expected_next_page_title, $pages->next()->title(), 'Next page title failed');
+        $this->assertEquals($expected_next_page_number, $pages->next()->page(), 'Next page number failed');
+        $this->assertEquals($expected_next_page_current, $pages->next()->isCurrent(), 'Next page current failed');
     }
 }
