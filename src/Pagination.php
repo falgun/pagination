@@ -120,8 +120,8 @@ final class Pagination implements PaginationInterface
             yield Page::new(
                     strval($page),
                     $page,
-                    $page === $this->currentPage,
-                    Page::IS_VALID
+                    $page === $this->currentPage ? Page::CURRENT_PAGE : Page::NOT_CURRENT_PAGE,
+                    Page::VISITABLE_PAGE,
             );
         }
     }

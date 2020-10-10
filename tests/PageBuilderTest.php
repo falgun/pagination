@@ -19,7 +19,7 @@ final class PageBuilderTest extends TestCase
         $this->assertSame('First', $first->title);
         $this->assertSame(1, $first->page);
         $this->assertTrue($first->current);
-        $this->assertFalse($first->isValid());
+        $this->assertFalse($first->isVisitable());
     }
 
     public function testFirstPageOnPage2()
@@ -28,7 +28,7 @@ final class PageBuilderTest extends TestCase
 
         $this->assertSame(1, $first->page);
         $this->assertFalse($first->current);
-        $this->assertTrue($first->isValid());
+        $this->assertTrue($first->isVisitable());
     }
 
     public function testLastPageOnMidPage()
@@ -40,7 +40,7 @@ final class PageBuilderTest extends TestCase
         $this->assertSame('Last', $last->title);
         $this->assertSame(9, $last->page);
         $this->assertFalse($last->current);
-        $this->assertTrue($last->isValid());
+        $this->assertTrue($last->isVisitable());
     }
 
     public function testLastPageOnLastPage()
@@ -49,7 +49,7 @@ final class PageBuilderTest extends TestCase
 
         $this->assertSame(9, $last->page);
         $this->assertTrue($last->current);
-        $this->assertFalse($last->isValid());
+        $this->assertFalse($last->isVisitable());
     }
 
     public function testPrePageOnPage1()
@@ -62,7 +62,7 @@ final class PageBuilderTest extends TestCase
         $this->assertSame(1, $pre->page);
         // previous page is never equals to current page
         $this->assertFalse($pre->current);
-        $this->assertFalse($pre->isValid());
+        $this->assertFalse($pre->isVisitable());
     }
 
     public function testPrePageOnPage2()
@@ -71,7 +71,7 @@ final class PageBuilderTest extends TestCase
 
         $this->assertSame(1, $pre->page);
         $this->assertFalse($pre->current);
-        $this->assertTrue($pre->isValid());
+        $this->assertTrue($pre->isVisitable());
     }
 
     public function testNextPageOnMidPage()
@@ -84,7 +84,7 @@ final class PageBuilderTest extends TestCase
         $this->assertSame(6, $next->page);
         // next page is never equals to current page
         $this->assertFalse($next->current);
-        $this->assertTrue($next->isValid());
+        $this->assertTrue($next->isVisitable());
     }
 
     public function testNextPageOnLastPage()
@@ -93,7 +93,7 @@ final class PageBuilderTest extends TestCase
 
         $this->assertSame(9, $next->page);
         $this->assertFalse($next->current);
-        $this->assertFalse($next->isValid());
+        $this->assertFalse($next->isVisitable());
     }
 
 }

@@ -6,29 +6,31 @@ namespace Falgun\Pagination;
 final class Page
 {
 
-    public const NO_FLAG = 0;
-    public const IS_VALID = 1;
+    public const CURRENT_PAGE = true;
+    public const NOT_CURRENT_PAGE = false;
+    public const VISITABLE_PAGE = true;
+    public const NOT_VISITABLE_PAGE = false;
 
     public string $title;
     public int $page;
     public bool $current;
-    public int $flags;
+    public bool $isVisitable;
 
-    private final function __construct(string $title, int $page, bool $current = false, int $flags = 0)
+    private final function __construct(string $title, int $page, bool $current, bool $isVisitable)
     {
         $this->title = $title;
         $this->page = $page;
         $this->current = $current;
-        $this->flags = $flags;
+        $this->isVisitable = $isVisitable;
     }
 
-    public static function new(string $title, int $page, bool $current = false, int $flags = 0): self
+    public static function new(string $title, int $page, bool $current, bool $isVisitable): self
     {
-        return new static($title, $page, $current, $flags);
+        return new static($title, $page, $current, $isVisitable);
     }
 
-    public function isValid(): bool
+    public function isVisitable(): bool
     {
-        return ($this->flags & self::IS_VALID) === 1;
+        return $this->isVisitable;
     }
 }

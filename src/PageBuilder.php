@@ -11,8 +11,8 @@ final class PageBuilder
         return Page::new(
                 'First',
                 1,
-                $currentPage === 1,
-                $currentPage > 1 ? Page::IS_VALID : Page::NO_FLAG
+                $currentPage === 1 ? Page::CURRENT_PAGE : Page::NOT_CURRENT_PAGE,
+                $currentPage > 1 ? Page::VISITABLE_PAGE : Page::NOT_VISITABLE_PAGE,
         );
     }
 
@@ -21,8 +21,8 @@ final class PageBuilder
         return Page::new(
                 'Last',
                 $totalPages,
-                $currentPage === $totalPages,
-                ($currentPage < $totalPages) ? Page::IS_VALID : Page::NO_FLAG
+                $currentPage === $totalPages ? Page::CURRENT_PAGE : Page::NOT_CURRENT_PAGE,
+                ($currentPage < $totalPages) ? Page::VISITABLE_PAGE : Page::NOT_VISITABLE_PAGE,
         );
     }
 
@@ -34,8 +34,8 @@ final class PageBuilder
                 'Pre',
                 $prePage,
                 // previous page is never considered as current page
-                false,
-                ($currentPage > 1) ? Page::IS_VALID : Page::NO_FLAG
+                page::NOT_CURRENT_PAGE,
+                ($currentPage > 1) ? Page::VISITABLE_PAGE : Page::NOT_VISITABLE_PAGE,
         );
     }
 
@@ -47,8 +47,8 @@ final class PageBuilder
                 'Next',
                 $nextPage,
                 // next page is never considered as current page
-                false,
-                ($currentPage < $totalPages) ? Page::IS_VALID : Page::NO_FLAG
+                page::NOT_CURRENT_PAGE,
+                ($currentPage < $totalPages) ? Page::VISITABLE_PAGE : Page::NOT_VISITABLE_PAGE,
         );
     }
 }

@@ -16,8 +16,8 @@ final class Pager implements PaginationInterface
     public function make(): PaginationBag
     {
         return PaginationBag::new(
-                Page::new('', 1, false, Page::NO_FLAG),
-                Page::new('', 1, false, Page::NO_FLAG),
+                Page::new('', 1, Page::NOT_CURRENT_PAGE, Page::NOT_VISITABLE_PAGE),
+                Page::new('', 1, Page::NOT_CURRENT_PAGE, Page::NOT_VISITABLE_PAGE),
                 PageBuilder::prePage($this->getCurrentPage()),
                 PageBuilder::nextPage($this->getCurrentPage(), $this->getTotalPage()),
                 new \EmptyIterator()

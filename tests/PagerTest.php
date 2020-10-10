@@ -19,11 +19,11 @@ class PagerTest extends TestCase
         $pages = $pager->make();
 
 
-        $this->assertEquals(false, $pages->firstPage->isValid(), 'First page valid failed');
-        $this->assertEquals(false, $pages->lastPage->isValid(), 'Last page valid failed');
+        $this->assertEquals(false, $pages->firstPage->isVisitable(), 'First page valid failed');
+        $this->assertEquals(false, $pages->lastPage->isVisitable(), 'Last page valid failed');
         $this->assertEquals(false, $pages->links->valid(), 'Link Iterator valid failed');
 
-        $this->assertEquals(true, $pages->prePage->isValid(), 'Pre page valid failed');
+        $this->assertEquals(true, $pages->prePage->isVisitable(), 'Pre page valid failed');
         $this->assertEquals('Pre', $pages->prePage->title, 'Pre page title failed');
         $this->assertEquals(8, $pages->prePage->page, 'Pre page Number failed');
         $this->assertEquals('Next', $pages->nextPage->title, 'Next page title failed');
