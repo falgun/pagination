@@ -39,6 +39,11 @@ final class Pager implements PaginationInterface
         return $this->pagination->getItemsPerPage();
     }
 
+    public function getMaxLinkToShow(): int
+    {
+        return $this->pagination->getMaxLinkToShow();
+    }
+
     public function getTotalItems(): int
     {
         return $this->pagination->getTotalItems();

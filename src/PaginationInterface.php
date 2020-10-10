@@ -11,6 +11,8 @@ interface PaginationInterface
 
     public function getItemsPerPage(): int;
 
+    public function getMaxLinkToShow(): int;
+
     public function setTotalItems(int $total): void;
 
     public function getTotalItems(): int;

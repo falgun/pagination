@@ -18,6 +18,14 @@ class PaginationTest extends TestCase
         $this->assertEquals(7, $pagination->getCurrentPage(), 'current page calcuation failed');
     }
 
+    public function testDefaultConstructParams()
+    {
+        $pagination = new Pagination(1);
+
+        $this->assertSame(10, $pagination->getItemsPerPage());
+        $this->assertSame(5, $pagination->getMaxLinkToShow());
+    }
+
     public function testUninitilizedProperties()
     {
         $pagination = new Pagination(1);
@@ -33,6 +41,22 @@ class PaginationTest extends TestCase
         $pagination = new Pagination(-10);
 
         $this->assertEquals(1, $pagination->getCurrentPage(), 'current page calcuation for negative number failed');
+
+        $pagination = new Pagination(0);
+
+        $this->assertEquals(1, $pagination->getCurrentPage(), 'current page calcuation for negative number failed');
+    }
+
+    public function testValidItemsPerPage()
+    {
+        $pagination = new Pagination(1, 1);
+        $this->assertSame(1, $pagination->getItemsPerPage());
+    }
+
+    public function testValidLinksToShow()
+    {
+        $pagination = new Pagination(1, 1, 0);
+        $this->assertSame(0, $pagination->getMaxLinkToShow());
     }
 
     public function testInvalidItemsPerPage()

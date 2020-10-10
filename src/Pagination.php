@@ -55,7 +55,7 @@ final class Pagination implements PaginationInterface
 
     private function prepareCurrentPage(int $page): int
     {
-        return $page < 1 ? 1 : $page;
+        return $page <= 0 ? 1 : $page;
     }
 
     private function calculateItemOffset(): int
@@ -94,7 +94,7 @@ final class Pagination implements PaginationInterface
 
     private function calculateStartPage(): int
     {
-        $startPage = (int) ($this->currentPage - intval(floor($this->maxLinkToShow / 2)));
+        $startPage = ($this->currentPage - intval(floor($this->maxLinkToShow / 2)));
 
         return ($startPage < 1) ? 1 : $startPage;
     }
@@ -134,6 +134,11 @@ final class Pagination implements PaginationInterface
     public function getItemsPerPage(): int
     {
         return $this->itemsPerPage;
+    }
+
+    public function getMaxLinkToShow(): int
+    {
+        return $this->maxLinkToShow;
     }
 
     public function getItemOffset(): int
